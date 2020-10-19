@@ -1,0 +1,45 @@
+{
+  level: 'error',
+  message: 'Internal Server Error, CODE: 500',
+  timestamp: '2020-10-18 21:10:30'
+}
+{
+  level: 'error',
+  message: 'Oops uncaughtException!',
+  timestamp: '2020-10-18 21:10:02'
+}
+{
+  level: 'error',
+  message: 'Oops uncaughtException!',
+  timestamp: '2020-10-18 21:10:52'
+}
+{
+  level: 'error',
+  message: 'Oops uncaughtException!',
+  timestamp: '2020-10-18 21:10:02'
+}
+{
+  level: 'error',
+  message: 'Oops uncaughtException!',
+  timestamp: '2020-10-18 21:10:54'
+}
+{
+  level: 'error',
+  message: 'Oops uncaughtException!',
+  timestamp: '2020-10-18 21:10:04'
+}
+{
+  level: 'error',
+  message: 'Oops uncaughtException!',
+  timestamp: '2020-10-18 21:10:54'
+}
+{
+  level: 'error',
+  message: 'Oops uncaughtException!',
+  timestamp: '2020-10-18 21:10:47'
+}
+{
+  level: 'error',
+  message: 'Oops uncaughtException!',
+  timestamp: '2020-10-18 21:10:96'
+}
