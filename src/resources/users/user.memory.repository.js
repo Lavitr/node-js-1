@@ -1,5 +1,6 @@
 const { DB } = require('../../common/inMemoryDB');
 const { cleanUser } = require('../tasks/task.memory.repository');
+const { NotFoundError } = require('../../common/errorHandlers');
 
 const getAll = async () => {
   return DB;
@@ -8,7 +9,7 @@ const getAll = async () => {
 const getById = async id => {
   const user = DB.find(v => v.id === id);
   if (!user) {
-    throw new Error(`The user with id=${id} was not found`);
+    throw new NotFoundError(`The user with id=${id} was not found`);
   }
   return user;
 };
@@ -18,7 +19,7 @@ const deletUser = async id => {
   const userInd = DB.findIndex(v => v.id === id);
   const user = DB.find(v => v.id === id);
   if (userInd < 0) {
-    throw new Error(`The user with id=${id} was not found`);
+    throw new NotFoundError(`The user with id=${id} was not found`);
   }
   DB.splice(userInd, 1);
   return user;
@@ -32,7 +33,7 @@ const createUser = async user => {
 const updateUser = async (id, params) => {
   const user = await getById(id);
   if (!user) {
-    throw new Error(`The user with id=${id} was not found`);
+    throw new NotFoundError(`The user with id=${id} was not found`);
   }
   const newUser = { ...user, ...params };
   DB.forEach((v, ind) => {

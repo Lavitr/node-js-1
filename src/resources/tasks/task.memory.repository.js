@@ -1,4 +1,5 @@
 const { taskDB } = require('../../common/inMemoryDB');
+const { NotFoundError } = require('../../common/errorHandlers');
 
 const getAll = async () => {
   return taskDB;
@@ -7,7 +8,7 @@ const getAll = async () => {
 const getTask = async (taskId, boardId) => {
   const user = taskDB.find(v => v.id === taskId && v.boardId === boardId);
   if (!user) {
-    throw new Error(
+    throw new NotFoundError(
       `The user with boardId=${boardId} and taskId=${taskId} was not found`
     );
   }
@@ -20,7 +21,7 @@ const deletTask = async (taskId, boardId) => {
   );
   const user = taskDB.find(v => v.id === taskId && v.boardId === boardId);
   if (userInd < 0) {
-    throw new Error(`The task with id=${taskId} was not found`);
+    throw new NotFoundError(`The task with id=${taskId} was not found`);
   }
   taskDB.splice(userInd, 1);
   return user;
@@ -34,7 +35,7 @@ const createTask = async task => {
 const updateTask = async (taskId, boardId, params) => {
   const task = await getTask(taskId, boardId);
   if (!task) {
-    throw new Error(`The task with id=${taskId} was not found`);
+    throw new NotFoundError(`The task with id=${taskId} was not found`);
   }
   const newTask = { ...task, ...params };
   taskDB.forEach((v, ind) => {
