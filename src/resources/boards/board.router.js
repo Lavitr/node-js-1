@@ -1,19 +1,20 @@
 const router = require('express').Router();
 const Board = require('./board.model');
 const boardService = require('./board.service');
-const { catchError } = require('../../common/errorHandlers');
+const { catchError, NotFoundError } = require('../../common/errorHandlers');
 
 router.route('/').get(
   catchError(async (req, res) => {
     const boards = await boardService.getAll();
-    res.json(boards);
+    res.json(boards.map(Board.toResponse));
   })
 );
 
 router.route('/:id').get(
-  catchError(async (req, res) => {
-    const boards = await boardService.getById(req.params.id);
-    res.json(boards);
+  catchError(async (req, res, next) => {
+    const board = await boardService.getById(req.params.id);
+    if (!board) return next(new NotFoundError('Not Found'));
+    res.json(Board.toResponse(board));
   })
 );
 
@@ -25,21 +26,22 @@ router.route('/').post(
         columns: req.body.columns
       })
     );
-    res.json(board);
+    res.json(Board.toResponse(board));
   })
 );
 
 router.route('/:id').put(
   catchError(async (req, res) => {
     const board = await boardService.updateBoard(req.params.id, req.body);
-    res.json(board);
+    res.json(Board.toResponse(board));
   })
 );
 
 router.route('/:id').delete(
-  catchError(async (req, res) => {
+  catchError(async (req, res, next) => {
     const board = await boardService.deletBoard(req.params.id);
-    res.json(board);
+    if (!board) return next(new NotFoundError('Not Found'));
+    return res.status(204).json('The board deleted');
   })
 );
 
