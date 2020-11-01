@@ -30,4 +30,12 @@ class NotFoundError extends Error {
   }
 }
 
-module.exports = { catchError, errorHandler, NotFoundError };
+class ErrorWithCode extends Error {
+  constructor(errorCode, message) {
+    super();
+    this.message = message;
+    this.statusCode = errorCode;
+  }
+}
+
+module.exports = { catchError, errorHandler, NotFoundError, ErrorWithCode };

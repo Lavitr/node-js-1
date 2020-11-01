@@ -5,9 +5,11 @@ const YAML = require('yamljs');
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
 const taskRouter = require('./resources/tasks/task.router');
+const loginRouter = require('./login/login.router');
 const { middlewareInfo, middlewareError, logger } = require('./common/logger');
 const { errorHandler } = require('./common/errorHandlers.js');
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
+const { checkToken } = require('./common/checkToken');
 
 const app = express();
 
@@ -37,9 +39,10 @@ app.use('/', (req, res, next) => {
   next();
 });
 
-app.use('/users', userRouter);
-app.use('/boards', boardRouter);
-boardRouter.use('/:boardId/tasks', taskRouter);
+app.use('/login', loginRouter);
+app.use('/users', checkToken, userRouter);
+app.use('/boards', checkToken, boardRouter);
+boardRouter.use('/:boardId/tasks', checkToken, taskRouter);
 
 app.use(errorHandler);
 app.use(middlewareError);
