@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { MONGO_CONNECTION_STRING } = require('./config');
+const { createUser } = require('../../resources/users/user.service');
 
 const connectToDB = fn =>
   mongoose
@@ -7,8 +8,9 @@ const connectToDB = fn =>
       useNewUrlParser: true,
       useUnifiedTopology: true
     })
-    .then(() => {
+    .then(async () => {
       console.log('Connected to DB');
+      await createUser({ name: 'admin', login: 'admin', password: 'admin' });
       fn();
     })
     .catch(err => {
